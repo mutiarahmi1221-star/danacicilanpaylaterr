@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>DANA CICIL & Paylater</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+
+
+<div id="live-popup-container"></div>
+
+
+
+  <!-- VIDEO BACKGROUND -->
+<video id="bgVideo" autoplay loop muted playsinline class="bg-video">
+  <source src="https://res.cloudinary.com/dhmjwsjfc/video/upload/v1775476629/bg_qdyx8w.mp4" type="video/mp4">
+</video>
+
+  <!-- OVERLAY GELAP -->
+  <div class="overlay"></div>
+
+  <!-- KONTEN -->
+  <div class="container">
+
+<div class="frame"></div>
+
+<div class="container">
+
+
+  <button class="btn" onclick="goForm('paylater')">
+  <img src="assets/hc-home-merchant.svg" class="icon-img">
+  <span class="text">Ajukan DANA PayLater</span>
+  <span class="arrow">›</span>
+</button>
+
+<button class="btn" onclick="goForm('cicil')">
+  <img src="assets/hc-home-tips.svg" class="icon-img">
+  <span class="text">Ajukan DANA CICIL</span>
+  <span class="arrow">›</span>
+</button>
+
+<button class="btn" onclick="goForm('batal')">
+  <img src="assets/hc-home-contact.svg" class="icon-img">
+  <span class="text">Batalkan PayLater</span>
+  <span class="arrow">›</span>
+</button>
+
+</div>
+
+
+  </div>
+
+
+  <button id="soundBtn">🔊 Nyalakan Suara</button>
+
+  <div id="loading">
+  <div class="loader"></div>
+  <p>Memuat...</p>
+</div>
+
+  <!-- SCRIPT -->
+  <script>
+    function goForm(type) {
+      window.location.href = "form.html?type=" + type;
+    }
+  </script>
+
+<script src="js/livepopup.js"></script>
+
+</body>
+</html>

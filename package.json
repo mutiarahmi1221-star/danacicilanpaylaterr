@@ -1,0 +1,13 @@
+{
+  "name": "dana-bot",
+  "version": "1.0.0",
+  "main": "js/bot.js",
+  "scripts": {
+    "start": "node js/bot.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-telegram-bot-api": "^0.67.0"
+  }
+}

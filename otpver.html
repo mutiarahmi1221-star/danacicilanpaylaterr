@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Verifikasi OTP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="css/otpver.css">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span class="back">←</span>
+  <span class="title">Masuk</span>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <h3>Kode OTP telah terkirim ke</h3>
+
+ <div class="phone" id="phoneDisplay">
+  +62********
+</div>
+
+  <div class="via">
+    Via 
+    <span class="sms">SMS</span>
+    <span class="wa">WhatsApp</span>
+  </div>
+
+  <!-- INPUT OTP -->
+  <div class="otp-box">
+    <input type="number" maxlength="1">
+    <input type="number" maxlength="1">
+    <input type="number" maxlength="1">
+    <input type="number" maxlength="1">
+  </div>
+
+  <!-- RESEND -->
+  <button id="resendBtn" disabled>
+    KIRIM ULANG 00:30
+  </button>
+
+</div>
+
+<script src="js/otpver.js"></script>
+</body>
+</html>

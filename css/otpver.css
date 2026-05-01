@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+body {
+  background: #1e88e5;
+  color: white;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.back {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* CONTENT */
+.content {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.phone {
+  background: rgba(255,255,255,0.2);
+  padding: 10px;
+  border-radius: 10px;
+  margin: 15px auto;
+  width: fit-content;
+  font-weight: bold;
+}
+
+.via {
+  margin-bottom: 25px;
+}
+
+.sms {
+  background: #ddd;
+  color: black;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-left: 5px;
+}
+
+.wa {
+  background: #25d366;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-left: 5px;
+}
+
+/* OTP BOX */
+.otp-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.otp-box input {
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  border: none;
+  text-align: center;
+  font-size: 20px;
+}
+
+/* BUTTON */
+button {
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background: #ddd;
+  color: #555;
+}
